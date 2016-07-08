@@ -1,0 +1,6 @@
+[submodule "streamer"]
+	path = streamer
+	url = https://francesco.zanini@ans.disi.unitn.it/redmine/streamers-build.git
+[submodule "grapes"]
+	path = grapes
+	url = https://ans.disi.unitn.it/redmine/grapes.git
