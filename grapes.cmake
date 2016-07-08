@@ -45,7 +45,7 @@ target_link_libraries(grapes
   ${CMAKE_BINARY_DIR}/pjsip/install/lib/libsrtp-x86_64-unknown-linux-gnu.a
   ${CMAKE_BINARY_DIR}/pjsip/install/lib/libresample-x86_64-unknown-linux-gnu.a
   ${CMAKE_BINARY_DIR}/pjsip/install/lib/libpj-x86_64-unknown-linux-gnu.a
-  uuid
+  #uuid
   m
   rt
   pthread
