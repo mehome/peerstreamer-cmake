@@ -1,3 +1,7 @@
+find_package(PkgConfig)
+
+pkg_search_module(PJPROJECT REQUIRED libpjproject)
+
 file(GLOB cache_src grapes/src/Cache/*.c)
 file(GLOB chunk_buffer_src grapes/src/ChunkBuffer/*.c)
 file(GLOB chunk_id_set_src grapes/src/ChunkIDSet/*.c)
@@ -30,30 +34,38 @@ add_library(grapes ${cache_src} ${chunk_buffer_src} ${chunk_id_set_src}
                           grapes/src/grapes_config.c grapes/src/net_helper-udp.c)
 
 target_link_libraries(grapes
-  ${CMAKE_BINARY_DIR}/pjsip/install/lib/libpjsua2-x86_64-unknown-linux-gnu.a
-  ${CMAKE_BINARY_DIR}/pjsip/install/lib/libpjsua-x86_64-unknown-linux-gnu.a
-  ${CMAKE_BINARY_DIR}/pjsip/install/lib/libpjsip-ua-x86_64-unknown-linux-gnu.a
-  ${CMAKE_BINARY_DIR}/pjsip/install/lib/libpjsip-simple-x86_64-unknown-linux-gnu.a
-  ${CMAKE_BINARY_DIR}/pjsip/install/lib/libpjsip-x86_64-unknown-linux-gnu.a
-  ${CMAKE_BINARY_DIR}/pjsip/install/lib/libpjmedia-codec-x86_64-unknown-linux-gnu.a
-  ${CMAKE_BINARY_DIR}/pjsip/install/lib/libpjmedia-x86_64-unknown-linux-gnu.a
-  ${CMAKE_BINARY_DIR}/pjsip/install/lib/libpjmedia-videodev-x86_64-unknown-linux-gnu.a
-  ${CMAKE_BINARY_DIR}/pjsip/install/lib/libpjmedia-audiodev-x86_64-unknown-linux-gnu.a
-  ${CMAKE_BINARY_DIR}/pjsip/install/lib/libpjmedia-x86_64-unknown-linux-gnu.a
-  ${CMAKE_BINARY_DIR}/pjsip/install/lib/libpjnath-x86_64-unknown-linux-gnu.a
-  ${CMAKE_BINARY_DIR}/pjsip/install/lib/libpjlib-util-x86_64-unknown-linux-gnu.a
-  ${CMAKE_BINARY_DIR}/pjsip/install/lib/libsrtp-x86_64-unknown-linux-gnu.a
-  ${CMAKE_BINARY_DIR}/pjsip/install/lib/libresample-x86_64-unknown-linux-gnu.a
-  ${CMAKE_BINARY_DIR}/pjsip/install/lib/libpj-x86_64-unknown-linux-gnu.a
-  #uuid
+  #${PJPROJECT_LIBRARIES}
+  # ${CMAKE_BINARY_DIR}/pjsip/install/lib/libpjsua2-x86_64-unknown-linux-gnu.a
+  # ${CMAKE_BINARY_DIR}/pjsip/install/lib/libpjsua-x86_64-unknown-linux-gnu.a
+  # ${CMAKE_BINARY_DIR}/pjsip/install/lib/libpjsip-ua-x86_64-unknown-linux-gnu.a
+  # ${CMAKE_BINARY_DIR}/pjsip/install/lib/libpjsip-simple-x86_64-unknown-linux-gnu.a
+  # ${CMAKE_BINARY_DIR}/pjsip/install/lib/libpjsip-x86_64-unknown-linux-gnu.a
+  # ${CMAKE_BINARY_DIR}/pjsip/install/lib/libpjmedia-codec-x86_64-unknown-linux-gnu.a
+  # ${CMAKE_BINARY_DIR}/pjsip/install/lib/libpjmedia-x86_64-unknown-linux-gnu.a
+  # ${CMAKE_BINARY_DIR}/pjsip/install/lib/libpjmedia-videodev-x86_64-unknown-linux-gnu.a
+  # ${CMAKE_BINARY_DIR}/pjsip/install/lib/libpjmedia-audiodev-x86_64-unknown-linux-gnu.a
+  # ${CMAKE_BINARY_DIR}/pjsip/install/lib/libpjmedia-x86_64-unknown-linux-gnu.a
+  # ${CMAKE_BINARY_DIR}/pjsip/install/lib/libpjnath-x86_64-unknown-linux-gnu.a
+  # ${CMAKE_BINARY_DIR}/pjsip/install/lib/libpjlib-util-x86_64-unknown-linux-gnu.a
+  # ${CMAKE_BINARY_DIR}/pjsip/install/lib/libsrtp-x86_64-unknown-linux-gnu.a
+  # ${CMAKE_BINARY_DIR}/pjsip/install/lib/libresample-x86_64-unknown-linux-gnu.a
+  # ${CMAKE_BINARY_DIR}/pjsip/install/lib/libpj-x86_64-unknown-linux-gnu.a
+  # uuid
+  # m
+  # rt
+  # pthread
+  # opus
+  # stdc++
   m
   rt
   pthread
-  #opus
-  stdc++)
-target_include_directories(grapes PUBLIC grapes/include ${CMAKE_BINARY_DIR}/pjsip/install/include)
-target_include_directories(grapes PUBLIC ${PJPROJECT_INCLUDE_DIRS})
-
+  pj
+  pjmedia
+)
+#target_include_directories(grapes PUBLIC grapes/include ${CMAKE_BINARY_DIR}/pjsip/install/include)
+target_include_directories(grapes PUBLIC grapes/include ${PJPROJECT_INCLUDE_DIRS})
+target_compile_options(grapes PUBLIC ${PJPROJECT_CFLAGS_OTHER})
+set_target_properties(grapes PROPERTIES LINK_FLAGS "-L${PJPROJECT_LIBRARY_DIRS}")
 #install(TARGETS grapes EXPORT libgrapes LIBRARY DESTINATION lib)
 #install(EXPORT libgrapes DESTINATION lib/grapes)
 #install(DIRECTORY include/ DESTINATION include/grapes)

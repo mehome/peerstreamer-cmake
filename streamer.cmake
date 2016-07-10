@@ -31,8 +31,11 @@ set(src streamer/channel.c
   streamer/xlweighter.c
 )
 
-add_executable(streamer ${src})
-target_compile_definitions(streamer PUBLIC "-DOUTPUT_REORDER=true")
-target_link_libraries(streamer grapes)
-target_include_directories(streamer PUBLIC streamer/compatibility streamer/transition grapes/include include)
-#set_target_properties(streamer PROPERTIES LINK_FLAGS "-static")
+add_executable(peerstreamer ${src})
+target_compile_definitions(peerstreamer PUBLIC "-DOUTPUT_REORDER=true")
+target_link_libraries(peerstreamer grapes)
+target_include_directories(peerstreamer PUBLIC streamer/compatibility streamer/transition grapes/include include)
+#set_target_properties(peerstreamer PROPERTIES LINK_FLAGS "-static")
+
+install(TARGETS peerstreamer RUNTIME DESTINATION bin)
+install(FILES streamer/streamer.conf DESTINATION share/peerstreamer/)
