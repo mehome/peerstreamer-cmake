@@ -62,10 +62,7 @@ target_link_libraries(grapes
   pj
   pjmedia
 )
-#target_include_directories(grapes PUBLIC grapes/include ${CMAKE_BINARY_DIR}/pjsip/install/include)
+
 target_include_directories(grapes PUBLIC grapes/include ${PJPROJECT_INCLUDE_DIRS})
 target_compile_options(grapes PUBLIC ${PJPROJECT_CFLAGS_OTHER})
 set_target_properties(grapes PROPERTIES LINK_FLAGS "-L${PJPROJECT_LIBRARY_DIRS}")
-#install(TARGETS grapes EXPORT libgrapes LIBRARY DESTINATION lib)
-#install(EXPORT libgrapes DESTINATION lib/grapes)
-#install(DIRECTORY include/ DESTINATION include/grapes)
